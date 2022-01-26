@@ -1,0 +1,24 @@
+---
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Deploy to DO k8s cluster
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout main
+      uses: actions/checkout@v2
+
+    - name: Install doctl cli client
+      uses: digitalocean/action-doctl@v2
+      with:
+        token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
+    - name: Save DigitalOcean kubeconfig with short-lived credentials
+      run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 efuse-demo-k8s-cluster
+
+    - name: Deploy to DigitalOcean Kubernetes
+      run: kubectl apply -f $GITHUB_WORKSPACE/objective2/web-deployment.yaml -f $GITHUB_WORKSPACE/objective2/whoami-deployment.yaml
