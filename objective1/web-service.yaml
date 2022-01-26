@@ -1,0 +1,21 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kubernetes.digitalocean.com/load-balancer-id: <INSERT LOAD BALANCER ID>
+    kubernetes.digitalocean.com/load-balancer-name: efuse-demo
+    service.kubernetes.io/do-loadbalancer-disown: "false"
+  name: web-service
+  namespace: default
+  labels:
+    app: nginx
+spec:
+  ports:
+  - nodePort: 30001
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: web
+  type: LoadBalancer

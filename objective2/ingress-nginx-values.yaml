@@ -1,0 +1,12 @@
+---
+controller:
+  replicaCount: 2
+  resources:
+    requests:
+      cpu: 100m
+      memory: 90Mi
+  service:
+    type: LoadBalancer
+    annotations:
+      kubernetes.digitalocean.com/load-balancer-id: <INSERT LOAD BALANCER ID>
+      service.kubernetes.io/do-loadbalancer-disown: "false"
