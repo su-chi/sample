@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - "objective2/**-deployment.yaml"
 
 jobs:
   build:
